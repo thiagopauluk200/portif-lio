@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   }
   if (!isSameOrigin(req)) return badRequest("Origem inválida");
 
-  const limit = rateLimit(`login:${clientIp(req)}`, 5, 15 * 60_000);
+  const limit = await rateLimit(`login:${clientIp(req)}`, 5, 15 * 60_000);
   if (!limit.ok) return tooManyRequests(limit.retryAfter);
 
   const body = (await readJson(req)) as { key?: unknown } | undefined;

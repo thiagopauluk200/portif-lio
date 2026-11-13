@@ -7,6 +7,12 @@ export const unauthorized = () => NextResponse.json({ error: "Não autorizado" }
 export const notFound = () => NextResponse.json({ error: "Não encontrado" }, { status: 404 });
 export const badRequest = (msg = "Requisição inválida") => NextResponse.json({ error: msg }, { status: 400 });
 
+export const storageUnavailable = () =>
+  NextResponse.json(
+    { error: "Armazenamento não configurado. Conecte o Upstash Redis no painel da Vercel (Storage)." },
+    { status: 503 },
+  );
+
 export function validationError(error: ZodError) {
   return NextResponse.json(
     { error: "Verifique os campos destacados", fields: error.flatten().fieldErrors },

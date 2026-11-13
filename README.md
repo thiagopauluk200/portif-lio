@@ -92,8 +92,20 @@ Para produção: `npm run build && npm start`.
 curl -H "Authorization: Bearer $ADMIN_SECRET_KEY" http://localhost:3000/api/admin/projects
 ```
 
-## Persistência: JSON agora, banco de dados depois
+## Persistência
 
-Os arquivos JSON em `data/` funcionam muito bem em **servidor Node próprio** (VPS, Railway, Render, Fly.io, Docker com volume). As escritas são atômicas e validadas, e a página pública é revalidada a cada alteração.
+| Ambiente | Projetos, trajetória e mensagens | Perfil e skills |
+|---|---|---|
+| Local () | arquivos em  |  |
+| Vercel | **Upstash Redis** (gratuito) |  (atualiza a cada ) |
 
-⚠️ **Na Vercel/Netlify (serverless) o sistema de arquivos é somente leitura e efêmero.** Lá, troque `lib/store.ts` por um banco de dados (Supabase, MongoDB Atlas, Turso…). Basta reimplementar as funções exportadas (`getContent`, `createItem`, `updateItem`, `deleteItem`, `addMessage`, …) com as mesmas assinaturas; nada mais muda. Nesse cenário, troque também o rate limit em memória (`lib/rate-limit.ts`) por Upstash Redis, porque cada instância serverless tem a própria memória.
+O modo é escolhido automaticamente: se existirem  e  (criadas pela integração Upstash da Vercel), usa Redis. O rate limit também passa a ser compartilhado entre instâncias.
+
+No primeiro acesso em produção, os projetos e experiências do  servem de ponto de partida. Depois disso, quem manda é o painel .
+
+## Deploy na Vercel
+
+1. vercel.com → **Add New → Project** → importe o repositório.
+2. **Settings → Environment Variables** →  (gere uma nova com ).
+3. **Storage → Create Database → Upstash (Redis)** → plano Free → conecte ao projeto.
+4. **Deployments → Redeploy** para aplicar as variáveis.

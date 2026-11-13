@@ -1,13 +1,14 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { ContactInputSchema } from "@/lib/schemas";
-import { badRequest, readJson, tooManyRequests, validationError } from "@/lib/http";
+import { badRequest, readJson, storageUnavailable, tooManyRequests, validationError } from "@/lib/http";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
-import { addMessage } from "@/lib/store";
+import { addMessage, isStorageWritable } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
-  const limit = rateLimit(`contact:${clientIp(req)}`, 5, 10 * 60_000);
+  if (!isStorageWritable()) return storageUnavailable();
+  const limit = await rateLimit(`contact:${clientIp(req)}`, 5, 10 * 60_000);
   if (!limit.ok) return tooManyRequests(limit.retryAfter);
 
   const body = await readJson(req);
