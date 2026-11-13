@@ -59,7 +59,7 @@ export function Hero({ profile, techs }: { profile: Profile; techs: string[] }) 
                   <span className="absolute inline-flex size-full animate-ping-slow rounded-full bg-accent opacity-75" />
                   <span className="relative inline-flex size-2 rounded-full bg-accent" />
                 </span>
-                Aberto a oportunidades · Estágio / CLT
+                Aberto a oportunidades
               </span>
             )}
             <p className="mt-8 font-mono text-sm text-muted">
