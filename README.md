@@ -96,16 +96,16 @@ curl -H "Authorization: Bearer $ADMIN_SECRET_KEY" http://localhost:3000/api/admi
 
 | Ambiente | Projetos, trajetória e mensagens | Perfil e skills |
 |---|---|---|
-| Local () | arquivos em  |  |
-| Vercel | **Upstash Redis** (gratuito) |  (atualiza a cada ) |
+| Local (`npm run dev`) | arquivos em `data/` | `data/content.json` |
+| Vercel | **Upstash Redis** (gratuito) | `data/content.json` (atualiza a cada `git push`) |
 
-O modo é escolhido automaticamente: se existirem  e  (criadas pela integração Upstash da Vercel), usa Redis. O rate limit também passa a ser compartilhado entre instâncias.
+O modo é escolhido automaticamente: se existirem `KV_REST_API_URL` e `KV_REST_API_TOKEN` (criadas pela integração Upstash da Vercel), usa Redis. O rate limit também passa a ser compartilhado entre instâncias.
 
-No primeiro acesso em produção, os projetos e experiências do  servem de ponto de partida. Depois disso, quem manda é o painel .
+No primeiro acesso em produção, os projetos e experiências do `content.json` servem de ponto de partida. Depois disso, quem manda é o painel `/admin`.
 
 ## Deploy na Vercel
 
 1. vercel.com → **Add New → Project** → importe o repositório.
-2. **Settings → Environment Variables** →  (gere uma nova com ).
+2. **Settings → Environment Variables** → `ADMIN_SECRET_KEY` (gere uma nova com `npm run gen:key`).
 3. **Storage → Create Database → Upstash (Redis)** → plano Free → conecte ao projeto.
 4. **Deployments → Redeploy** para aplicar as variáveis.
