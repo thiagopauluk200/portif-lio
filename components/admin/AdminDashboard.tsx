@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import type { Experience, Message, Project, Settings } from "@/lib/schemas";
 import { ProfilePanel } from "./ProfilePanel";
+import { Logo } from "@/components/ui/Logo";
 import { cn, formatDateTime, formatMonth } from "@/lib/utils";
 import { adminApi } from "./api";
 import { DeleteButton } from "./ui";
@@ -110,9 +111,12 @@ export function AdminDashboard({
     <div className="mx-auto max-w-5xl px-4 pb-24 pt-8 sm:px-6">
       {/* Cabeçalho */}
       <header className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Painel administrativo</p>
-          <h1 className="mt-1 text-2xl font-medium">Gerenciar conteúdo</h1>
+        <div className="flex items-center gap-4">
+          <Logo className="size-11" />
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Painel administrativo</p>
+            <h1 className="mt-1 text-2xl font-medium">Gerenciar conteúdo</h1>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <a

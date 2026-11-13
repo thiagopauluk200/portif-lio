@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/ui/Logo";
 
 const LINKS = [
   { href: "#skills", label: "Skills" },
@@ -36,12 +37,6 @@ export function Navbar({ name }: { name: string }) {
     };
   }, []);
 
-  const initials = name
-    .split(" ")
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join("");
-
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-[max(1rem,env(safe-area-inset-top))]">
       <nav
@@ -52,9 +47,7 @@ export function Navbar({ name }: { name: string }) {
         )}
       >
         <a href="#top" className="flex items-center gap-2 rounded-full pl-2 pr-3 font-medium" aria-label="Início">
-          <span className="grid size-8 place-items-center rounded-full bg-accent font-mono text-xs font-bold text-ink-950">
-            {initials}
-          </span>
+          <Logo className="size-9 transition duration-500 hover:rotate-[-8deg]" title={name} />
           <span className="hidden text-sm sm:inline">{name}</span>
         </a>
 
