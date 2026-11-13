@@ -29,8 +29,20 @@ function blobToken(): string | undefined {
   return blobTokenSource()?.value;
 }
 
+/**
+ * Modo novo da Vercel: o Blob é conectado sem token fixo. Só existe BLOB_STORE_ID
+ * e a biblioteca se autentica sozinha com um token OIDC temporário gerado pela Vercel.
+ */
+export function blobUsesOidc() {
+  return !blobToken() && Boolean(process.env.BLOB_STORE_ID) && Boolean(process.env.VERCEL);
+}
+
+function blobEnabled() {
+  return Boolean(blobToken()) || blobUsesOidc();
+}
+
 export function uploadsAvailable() {
-  return Boolean(blobToken()) || !process.env.VERCEL;
+  return blobEnabled() || !process.env.VERCEL;
 }
 
 /** Identifica o formato pelos bytes iniciais — não confia no nome nem no Content-Type enviados. */
@@ -55,17 +67,26 @@ export async function saveImage(
   if (!format) return { ok: false, error: "Formato não suportado. Use JPG, PNG ou WebP." };
 
   const name = `${kind}/${randomUUID()}.${format.ext}`;
-  const token = blobToken();
 
-  if (token) {
-    const blob = await put(`portfolio/${name}`, Buffer.from(bytes), {
-      access: "public",
-      contentType: format.type,
-      addRandomSuffix: false,
-      cacheControlMaxAge: 60 * 60 * 24 * 365,
-      token,
-    });
-    return { ok: true, url: blob.url };
+  if (blobEnabled()) {
+    try {
+      const blob = await put(`portfolio/${name}`, Buffer.from(bytes), {
+        access: "public",
+        contentType: format.type,
+        addRandomSuffix: false,
+        cacheControlMaxAge: 60 * 60 * 24 * 365,
+        // Sem token explícito, a biblioteca usa OIDC + BLOB_STORE_ID.
+        ...(blobToken() ? { token: blobToken() } : {}),
+      });
+      return { ok: true, url: blob.url };
+    } catch (err) {
+      const msg = (err as Error).message ?? "";
+      console.error("[upload] falha no Vercel Blob:", msg);
+      if (/private|access/i.test(msg)) {
+        return { ok: false, error: "O Blob conectado é privado. Conecte um Blob Store com acesso Public." };
+      }
+      return { ok: false, error: `Falha no Vercel Blob: ${msg.slice(0, 200)}` };
+    }
   }
 
   const dir = path.join(process.cwd(), "public", "uploads", kind);

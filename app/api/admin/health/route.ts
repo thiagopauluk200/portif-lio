@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { requireAdmin } from "@/lib/auth";
 import { unauthorized } from "@/lib/http";
 import { redis, redisSource } from "@/lib/redis";
-import { blobTokenSource } from "@/lib/uploads";
+import { blobTokenSource, blobUsesOidc } from "@/lib/uploads";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +23,11 @@ export async function GET(req: NextRequest) {
     armazenamento: redis ? "redis" : "arquivos",
     credenciaisRedis: redisSource,
     pingRedis: ping,
-    uploadsBlob: blobTokenSource() ? `ativo (variável ${blobTokenSource()!.name})` : "NÃO configurado",
+    uploadsBlob: blobTokenSource()
+      ? `ativo (token ${blobTokenSource()!.name})`
+      : blobUsesOidc()
+        ? `ativo (OIDC, store ${process.env.BLOB_STORE_ID})`
+        : "NÃO configurado",
     projetoVercel: process.env.VERCEL_PROJECT_PRODUCTION_URL ?? null,
     commit: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? null,
     vercel: Boolean(process.env.VERCEL),
