@@ -1,0 +1,164 @@
+{
+  "profile": {
+    "name": "Thiago Pauluk",
+    "role": "Desenvolvedor de Software",
+    "headline": "Conectando *eletrônica* e *software* para criar soluções práticas.",
+    "summary": "Técnico em Análise e Desenvolvimento de Sistemas e estudante de Ciência da Computação. Desenvolvo aplicações web, APIs e projetos de automação e IoT, do design da placa de circuito à interface.",
+    "location": "Curitiba, PR",
+    "timezone": "America/Sao_Paulo",
+    "email": "thiagopauluk3@gmail.com",
+    "available": true,
+    "resumeUrl": "",
+    "socials": {
+      "github": "https://github.com/thiagopauluk200",
+      "linkedin": "https://www.linkedin.com/in/thiago-pauluk",
+      "x": ""
+    },
+    "stats": [
+      { "value": "5", "label": "certificações e cursos" },
+      { "value": "2", "label": "clouds: Google Cloud e Azure" },
+      { "value": "3", "label": "idiomas: PT · EN · ZH" },
+      { "value": "HW+SW", "label": "do circuito à aplicação" }
+    ]
+  },
+  "skills": [
+    {
+      "id": "dev",
+      "title": "Dev & Linguagens",
+      "description": "Linguagens e tecnologias web que uso para construir interfaces e aplicações.",
+      "icon": "code",
+      "items": ["JavaScript", "TypeScript", "Python", "C++", "React", "HTML5", "CSS3", "SQL Server"]
+    },
+    {
+      "id": "backend",
+      "title": "Back-end & Ferramentas",
+      "description": "APIs, integração com dados públicos e publicação automatizada.",
+      "icon": "server",
+      "items": ["Node.js", "Express", "APIs REST", "Vite", "Git", "GitHub Actions"]
+    },
+    {
+      "id": "hardware",
+      "title": "Hardware & Automação",
+      "description": "Prototipagem eletrônica e integração entre hardware e software.",
+      "icon": "cpu",
+      "items": ["KiCad (PCB)", "Soldagem", "Componentes eletrônicos", "Prototipagem", "Sistemas de automação", "IoT"]
+    },
+    {
+      "id": "infra",
+      "title": "Sistemas & Cloud",
+      "description": "Servidores, sistemas operacionais e nuvem.",
+      "icon": "cloud",
+      "items": ["Linux", "Windows", "Apache", "Tomcat", "Servidores web / proxy", "GCP", "Azure"]
+    },
+    {
+      "id": "idiomas",
+      "title": "Idiomas",
+      "description": "Comunicação além do código.",
+      "icon": "languages",
+      "items": ["Português — nativo", "Inglês — intermediário", "Chinês — básico"]
+    }
+  ],
+  "projects": [
+    {
+      "id": "brasil-aberto",
+      "title": "Brasil Aberto",
+      "description": "Painel para entender o orçamento dos municípios brasileiros. Reúne dados públicos do IBGE e do Tesouro Nacional com busca por município, filtros por exercício, indicadores, gráficos de execução orçamentária, tabela de despesas e exportação em CSV.",
+      "tags": ["React", "TypeScript", "Node.js", "Express", "Recharts", "GitHub Actions"],
+      "repoUrl": "https://github.com/thiagopauluk200/brasil-aberto",
+      "demoUrl": "https://thiagopauluk200.github.io/brasil-aberto/",
+      "year": 2026,
+      "featured": true,
+      "createdAt": "2026-11-06T12:00:00.000Z",
+      "updatedAt": "2026-11-06T12:00:00.000Z"
+    },
+    {
+      "id": "ia-vagas",
+      "title": "IA Vagas",
+      "description": "Projeto em desenvolvimento, escrito em Python, que explora inteligência artificial aplicada a vagas de emprego.",
+      "tags": ["Python", "IA"],
+      "repoUrl": "https://github.com/thiagopauluk200/ia-vagas",
+      "year": 2026,
+      "featured": false,
+      "createdAt": "2026-11-07T12:00:00.000Z",
+      "updatedAt": "2026-11-07T12:00:00.000Z"
+    },
+    {
+      "id": "portfolio",
+      "title": "Portfólio + Painel Admin",
+      "description": "Este site: portfólio com painel administrativo próprio para gerenciar projetos e trajetória, protegido por chave secreta, sessão assinada com HMAC e limite de tentativas de login.",
+      "tags": ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
+      "year": 2026,
+      "featured": false,
+      "createdAt": "2026-11-13T12:00:00.000Z",
+      "updatedAt": "2026-11-13T12:00:00.000Z"
+    }
+  ],
+  "experiences": [
+    {
+      "id": "bcc",
+      "role": "Bacharelado em Ciência da Computação",
+      "organization": "Ensino Superior",
+      "type": "education",
+      "start": "2025",
+      "description": "Aprofundando fundamentos em lógica, algoritmos e engenharia de software.",
+      "highlights": [],
+      "tags": [],
+      "createdAt": "2026-11-13T12:00:00.000Z",
+      "updatedAt": "2026-11-13T12:00:00.000Z"
+    },
+    {
+      "id": "pcb",
+      "role": "Desenvolvimento de Placas PCB",
+      "organization": "Instituição Privada — PR",
+      "type": "certification",
+      "start": "2025",
+      "end": "2026",
+      "description": "Design de placas de circuito impresso no KiCad, soldagem e especificação de componentes eletrônicos com documentação.",
+      "highlights": [],
+      "tags": ["KiCad", "Eletrônica"],
+      "createdAt": "2026-11-13T12:00:00.000Z",
+      "updatedAt": "2026-11-13T12:00:00.000Z"
+    },
+    {
+      "id": "senai",
+      "role": "Técnico em Análise e Desenvolvimento de Sistemas",
+      "organization": "SENAI SP",
+      "type": "education",
+      "start": "2022",
+      "end": "2024",
+      "description": "Formação técnica em desenvolvimento de software, com prática em JavaScript, Python, C++, tecnologias web e banco de dados SQL Server.",
+      "highlights": [],
+      "tags": ["JavaScript", "Python", "C++", "SQL Server"],
+      "createdAt": "2026-11-13T12:00:00.000Z",
+      "updatedAt": "2026-11-13T12:00:00.000Z"
+    },
+    {
+      "id": "java-foundations",
+      "role": "Java Foundations",
+      "organization": "Oracle",
+      "type": "certification",
+      "start": "2024",
+      "description": "Fundamentos da linguagem Java e da programação orientada a objetos.",
+      "highlights": [],
+      "tags": ["Java"],
+      "createdAt": "2026-11-13T12:00:00.000Z",
+      "updatedAt": "2026-11-13T12:00:00.000Z"
+    },
+    {
+      "id": "cloud-2023",
+      "role": "Certificações em Cloud, Dados e IA",
+      "organization": "Google Cloud · Microsoft",
+      "type": "certification",
+      "start": "2023",
+      "description": "Fundamentos de computação em nuvem, dados e inteligência artificial nas plataformas Google Cloud e Microsoft Azure.",
+      "highlights": [
+        "Google Cloud Foundations — Google Cloud",
+        "Azure Data Fundamentals (DP-900) — Microsoft",
+        "Azure AI Fundamentals (AI-900) — Microsoft"
+      ],
+      "tags": ["GCP", "Azure"],
+      "createdAt": "2026-11-13T12:00:00.000Z",
+      "updatedAt": "2026-11-13T12:00:00.000Z"
+    }
+  ]
+}
