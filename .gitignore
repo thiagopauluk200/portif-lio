@@ -11,3 +11,7 @@ next-env.d.ts
 # Dados privados / temporários
 data/messages.json
 data/*.tmp
+
+# Uploads locais (em produção vão para o Vercel Blob)
+public/uploads
+data/settings.json

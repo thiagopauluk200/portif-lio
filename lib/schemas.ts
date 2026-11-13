@@ -100,6 +100,11 @@ export const ContentSchema = z.object({
   experiences: z.array(ExperienceSchema),
 });
 
+/* ---------- Configurações editáveis pelo painel ---------- */
+export const SettingsSchema = z.object({
+  avatar: optionalUrl,
+});
+
 /* ---------- Contato ---------- */
 export const ContactInputSchema = z.object({
   name: z.string().trim().min(2, "Informe seu nome").max(80),
@@ -126,3 +131,4 @@ export type Profile = z.infer<typeof ProfileSchema>;
 export type SkillCategory = z.infer<typeof SkillCategorySchema>;
 export type Content = z.infer<typeof ContentSchema>;
 export type Message = z.infer<typeof MessageSchema>;
+export type Settings = z.infer<typeof SettingsSchema>;

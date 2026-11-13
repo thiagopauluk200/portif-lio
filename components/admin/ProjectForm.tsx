@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { Project } from "@/lib/schemas";
 import { ApiError, type FieldErrors } from "./api";
 import { Field, SubmitBar, Toggle, inputCls, splitList } from "./ui";
+import { ImageUpload } from "./ImageUpload";
 
 export function ProjectForm({
   initial,
@@ -87,14 +88,11 @@ export function ProjectForm({
           <input value={demoUrl} onChange={(e) => setDemoUrl(e.target.value)} placeholder="https://..." className={inputCls} aria-invalid={!!err("demoUrl")} />
         </Field>
       </div>
-      <div className="grid gap-5 sm:grid-cols-[1fr_8rem]">
-        <Field label="Imagem de capa (URL)" hint="opcional" error={err("image")}>
-          <input value={image} onChange={(e) => setImage(e.target.value)} placeholder="https://..." className={inputCls} aria-invalid={!!err("image")} />
-        </Field>
-        <Field label="Ano" error={err("year")}>
-          <input type="number" value={year} onChange={(e) => setYear(e.target.value)} min={1990} max={2100} className={inputCls} />
-        </Field>
-      </div>
+      <ImageUpload kind="project" label="Banner do projeto (opcional)" value={image} onChange={setImage} />
+      {err("image") && <p className="-mt-3 text-xs text-red-400">{err("image")}</p>}
+      <Field label="Ano" error={err("year")} className="max-w-[8rem]">
+        <input type="number" value={year} onChange={(e) => setYear(e.target.value)} min={1990} max={2100} className={inputCls} />
+      </Field>
       <Toggle checked={featured} onChange={setFeatured} label="Projeto em destaque (card maior, aparece primeiro)" />
 
       {formError && <p role="alert" className="text-sm text-red-400">{formError}</p>}

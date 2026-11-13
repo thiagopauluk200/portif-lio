@@ -14,23 +14,27 @@ import {
   Pencil,
   Plus,
   Star,
+  UserRound,
   X,
 } from "lucide-react";
-import type { Experience, Message, Project } from "@/lib/schemas";
+import type { Experience, Message, Project, Settings } from "@/lib/schemas";
+import { ProfilePanel } from "./ProfilePanel";
 import { cn, formatDateTime, formatMonth } from "@/lib/utils";
 import { adminApi } from "./api";
 import { DeleteButton } from "./ui";
 import { ProjectForm } from "./ProjectForm";
 import { ExperienceForm } from "./ExperienceForm";
 
-type Tab = "projects" | "experiences" | "messages";
+type Tab = "projects" | "experiences" | "messages" | "profile";
 type Editor = { kind: "projects"; item?: Project } | { kind: "experiences"; item?: Experience } | null;
 
 export function AdminDashboard({
+  initialSettings,
   initialProjects,
   initialExperiences,
   initialMessages,
 }: {
+  initialSettings: Settings;
   initialProjects: Project[];
   initialExperiences: Experience[];
   initialMessages: Message[];
@@ -78,7 +82,7 @@ export function AdminDashboard({
     notify(id ? "Experiência atualizada" : "Experiência criada");
   }
 
-  async function remove(kind: Tab, id: string) {
+  async function remove(kind: Exclude<Tab, "profile">, id: string) {
     try {
       await adminApi(`/api/admin/${kind}/${id}`, { method: "DELETE" });
       if (kind === "projects") setProjects((l) => l.filter((i) => i.id !== id));
@@ -99,6 +103,7 @@ export function AdminDashboard({
     { id: "projects" as const, label: "Projetos", count: projects.length, Icon: FolderGit2 },
     { id: "experiences" as const, label: "Trajetória", count: experiences.length, Icon: Briefcase },
     { id: "messages" as const, label: "Mensagens", count: messages.length, Icon: Inbox },
+    { id: "profile" as const, label: "Perfil", count: null, Icon: UserRound },
   ];
 
   return (
@@ -143,7 +148,9 @@ export function AdminDashboard({
             {tab === id && <motion.span layoutId="admin-tab" className="absolute inset-0 rounded-xl bg-accent" />}
             <span className="relative flex items-center gap-2">
               <Icon className="size-4" /> {label}
-              <span className={cn("rounded-full px-1.5 text-xs", tab === id ? "bg-ink-950/15" : "bg-white/5")}>{count}</span>
+              {count !== null && (
+                <span className={cn("rounded-full px-1.5 text-xs", tab === id ? "bg-ink-950/15" : "bg-white/5")}>{count}</span>
+              )}
             </span>
           </button>
         ))}
@@ -151,7 +158,9 @@ export function AdminDashboard({
 
       {/* Conteúdo */}
       <section className="mt-6">
-        {tab !== "messages" && (
+        {tab === "profile" && <ProfilePanel initial={initialSettings} notify={notify} />}
+
+        {(tab === "projects" || tab === "experiences") && (
           <div className="mb-4 flex justify-end">
             <button
               type="button"

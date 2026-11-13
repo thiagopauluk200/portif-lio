@@ -18,6 +18,8 @@ import {
   ExperienceInputSchema,
   MessageSchema,
   ProjectInputSchema,
+  SettingsSchema,
+  type Settings,
   type Content,
   type Experience,
   type Message,
@@ -31,6 +33,8 @@ const MAX_MESSAGES = 500;
 
 const KEY_COLLECTIONS = "portfolio:collections";
 const KEY_MESSAGES = "portfolio:messages";
+const KEY_SETTINGS = "portfolio:settings";
+const SETTINGS_FILE = path.join(DATA_DIR, "settings.json");
 
 const CollectionsSchema = ContentSchema.pick({ projects: true, experiences: true });
 type CollectionsData = { projects: Project[]; experiences: Experience[] };
@@ -103,14 +107,35 @@ function sortExperiences(list: Experience[]) {
   );
 }
 
+/* ---------- Configurações (foto de perfil etc.) ---------- */
+export async function getSettings(): Promise<Settings> {
+  try {
+    const raw = redis ? await redis.get<string>(KEY_SETTINGS) : await fs.readFile(SETTINGS_FILE, "utf8");
+    return raw ? SettingsSchema.parse(JSON.parse(raw)) : {};
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") return {};
+    throw err;
+  }
+}
+
+export async function updateSettings(input: unknown) {
+  const parsed = SettingsSchema.safeParse(input);
+  if (!parsed.success) return { ok: false as const, error: parsed.error };
+  const settings = parsed.data;
+  if (redis) await redis.set(KEY_SETTINGS, JSON.stringify(settings));
+  else await withLock(() => writeJsonAtomic(SETTINGS_FILE, settings));
+  return { ok: true as const, settings };
+}
+
 /* ---------- leitura pública ---------- */
 export async function getContent(): Promise<Content> {
-  const [base, collections] = await Promise.all([
+  const [base, collections, settings] = await Promise.all([
     redis ? Promise.resolve(ContentSchema.parse(seed)) : readFileContent(),
     readCollections(),
+    getSettings(),
   ]);
   return {
-    profile: base.profile,
+    profile: { ...base.profile, avatar: settings.avatar ?? base.profile.avatar },
     skills: base.skills,
     projects: collections.projects,
     experiences: sortExperiences(collections.experiences),
