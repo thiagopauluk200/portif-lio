@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowDownRight, ArrowUpRight, Download, MapPin } from "lucide-react";
 import type { Profile } from "@/lib/schemas";
 import { Emphasis } from "@/components/ui/Emphasis";
+import { StatusBadge } from "@/components/ui/StatusBadge";
 import { EASE } from "@/components/ui/Reveal";
 import { Socials } from "./Socials";
 import { cn } from "@/lib/utils";
@@ -53,15 +54,7 @@ export function Hero({ profile, techs }: { profile: Profile; techs: string[] }) 
         {/* Apresentação principal */}
         <BentoCard i={0} className="flex flex-col justify-between p-7 sm:p-10 lg:col-span-8 lg:row-span-2">
           <div>
-            {profile.available && (
-              <span className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
-                <span className="relative flex size-2">
-                  <span className="absolute inline-flex size-full animate-ping-slow rounded-full bg-accent opacity-75" />
-                  <span className="relative inline-flex size-2 rounded-full bg-accent" />
-                </span>
-                Aberto a oportunidades
-              </span>
-            )}
+            {profile.status?.enabled && <StatusBadge text={profile.status.text} tone={profile.status.tone} />}
             <p className="mt-8 font-mono text-sm text-muted">
               Olá, eu sou <span className="text-white">{profile.name}</span> — {profile.role}
             </p>

@@ -65,8 +65,8 @@ export function Contact({ profile }: { profile: Profile }) {
         <Reveal className="flex flex-col justify-between rounded-3xl border border-line bg-ink-900/80 p-7 sm:p-9 lg:col-span-2">
           <div>
             <p className="text-lg leading-relaxed text-zinc-300">
-              Tem uma vaga, um projeto ou só quer trocar uma ideia? Estou{" "}
-              <span className="text-accent">aberto a oportunidades</span>.
+              Tem uma vaga, um projeto ou só quer trocar uma ideia?{" "}
+              <span className="text-accent">Vamos conversar.</span>
             </p>
             <div className="mt-8 rounded-2xl border border-line bg-ink-800/50 p-4">
               <p className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted">

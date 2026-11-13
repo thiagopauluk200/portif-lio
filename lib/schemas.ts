@@ -65,6 +65,15 @@ export const ExperienceSchema = ExperienceBase.extend({
   updatedAt: z.string(),
 });
 
+/* ---------- Status de disponibilidade (editado pelo painel) ---------- */
+export const STATUS_TONES = ["available", "busy", "neutral"] as const;
+
+export const StatusSchema = z.object({
+  enabled: z.boolean().default(true),
+  text: z.string().trim().min(2, "Escreva pelo menos 2 caracteres").max(60, "Máximo de 60 caracteres"),
+  tone: z.enum(STATUS_TONES).default("available"),
+});
+
 /* ---------- Perfil e Skills (editados em data/content.json) ---------- */
 export const ProfileSchema = z.object({
   name: z.string(),
@@ -75,6 +84,8 @@ export const ProfileSchema = z.object({
   timezone: z.string().default("America/Sao_Paulo"),
   email: z.string().email(),
   available: z.boolean().default(true),
+  /** Preenchido em tempo de execução a partir das configurações do painel. */
+  status: StatusSchema.optional(),
   avatar: z.string().optional(),
   resumeUrl: z.string().optional(),
   socials: z.object({
@@ -103,6 +114,7 @@ export const ContentSchema = z.object({
 /* ---------- Configurações editáveis pelo painel ---------- */
 export const SettingsSchema = z.object({
   avatar: optionalUrl,
+  status: StatusSchema.optional(),
 });
 
 /* ---------- Contato ---------- */
@@ -132,3 +144,5 @@ export type SkillCategory = z.infer<typeof SkillCategorySchema>;
 export type Content = z.infer<typeof ContentSchema>;
 export type Message = z.infer<typeof MessageSchema>;
 export type Settings = z.infer<typeof SettingsSchema>;
+export type Status = z.infer<typeof StatusSchema>;
+export type StatusTone = Status["tone"];

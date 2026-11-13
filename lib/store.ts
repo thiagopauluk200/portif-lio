@@ -118,10 +118,14 @@ export async function getSettings(): Promise<Settings> {
   }
 }
 
+/** Atualiza só os campos enviados (ex.: salvar o status não apaga a foto). */
 export async function updateSettings(input: unknown) {
   const parsed = SettingsSchema.safeParse(input);
   if (!parsed.success) return { ok: false as const, error: parsed.error };
-  const settings = parsed.data;
+  const sent = (input ?? {}) as Record<string, unknown>;
+  const settings: Settings = { ...(await getSettings()) };
+  if ("avatar" in sent) settings.avatar = parsed.data.avatar;
+  if ("status" in sent) settings.status = parsed.data.status;
   if (redis) await redis.set(KEY_SETTINGS, JSON.stringify(settings));
   else await withLock(() => writeJsonAtomic(SETTINGS_FILE, settings));
   return { ok: true as const, settings };
@@ -135,7 +139,15 @@ export async function getContent(): Promise<Content> {
     getSettings(),
   ]);
   return {
-    profile: { ...base.profile, avatar: settings.avatar ?? base.profile.avatar },
+    profile: {
+      ...base.profile,
+      avatar: settings.avatar ?? base.profile.avatar,
+      status: settings.status ?? {
+        enabled: base.profile.available,
+        text: "Aberto a oportunidades",
+        tone: "available",
+      },
+    },
     skills: base.skills,
     projects: collections.projects,
     experiences: sortExperiences(collections.experiences),

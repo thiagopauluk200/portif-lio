@@ -12,7 +12,7 @@ export default async function AdminPage() {
   const [content, messages, settings] = await Promise.all([getContent(), listMessages(), getSettings()]);
   return (
     <AdminDashboard
-      initialSettings={settings}
+      initialSettings={{ avatar: settings.avatar, status: content.profile.status! }}
       initialProjects={content.projects}
       initialExperiences={content.experiences}
       initialMessages={messages}

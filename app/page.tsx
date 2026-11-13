@@ -19,7 +19,8 @@ export default async function Home() {
     <MotionProvider>
       <Navbar name={profile.name} />
       <main>
-        <Hero profile={profile} techs={techs} />
+        {/* Status oculto não é enviado ao navegador */}
+        <Hero profile={{ ...profile, status: profile.status?.enabled ? profile.status : undefined }} techs={techs} />
         <Skills skills={skills} />
         <Projects projects={projects} />
         <Experience experiences={experiences} />

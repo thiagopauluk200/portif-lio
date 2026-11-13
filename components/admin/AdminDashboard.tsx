@@ -17,7 +17,7 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import type { Experience, Message, Project, Settings } from "@/lib/schemas";
+import type { Experience, Message, Project, Status } from "@/lib/schemas";
 import { ProfilePanel } from "./ProfilePanel";
 import { Logo } from "@/components/ui/Logo";
 import { cn, formatDateTime, formatMonth } from "@/lib/utils";
@@ -35,7 +35,7 @@ export function AdminDashboard({
   initialExperiences,
   initialMessages,
 }: {
-  initialSettings: Settings;
+  initialSettings: { avatar?: string; status: Status };
   initialProjects: Project[];
   initialExperiences: Experience[];
   initialMessages: Message[];
