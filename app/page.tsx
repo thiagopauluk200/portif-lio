@@ -12,15 +12,17 @@ import { MotionProvider } from "@/components/ui/MotionProvider";
 export const revalidate = 3600;
 
 export default async function Home() {
-  const { profile, skills, projects, experiences } = await getContent();
+  const content = await getContent();
+  const { skills, projects, experiences } = content;
+  // Status oculto não é enviado ao navegador (nenhum componente recebe o texto).
+  const profile = { ...content.profile, status: content.profile.status?.enabled ? content.profile.status : undefined };
   const techs = Array.from(new Set(skills.filter((s) => !["soft", "idiomas"].includes(s.id)).flatMap((s) => s.items)));
 
   return (
     <MotionProvider>
       <Navbar name={profile.name} />
       <main>
-        {/* Status oculto não é enviado ao navegador */}
-        <Hero profile={{ ...profile, status: profile.status?.enabled ? profile.status : undefined }} techs={techs} />
+        <Hero profile={profile} techs={techs} />
         <Skills skills={skills} />
         <Projects projects={projects} />
         <Experience experiences={experiences} />
