@@ -12,10 +12,21 @@ import { put } from "@vercel/blob";
 export const MAX_UPLOAD_BYTES = 3 * 1024 * 1024;
 export type UploadKind = "project" | "avatar";
 
+/**
+ * Token do Vercel Blob. A integração pode criar a variável com prefixo personalizado
+ * (ex.: IMAGENS_READ_WRITE_TOKEN), então também reconhecemos pelo formato do valor.
+ */
+export function blobTokenSource(): { name: string; value: string } | null {
+  const direct = process.env.BLOB_READ_WRITE_TOKEN;
+  if (direct) return { name: "BLOB_READ_WRITE_TOKEN", value: direct };
+  for (const [k, v] of Object.entries(process.env)) {
+    if (v && (k.endsWith("READ_WRITE_TOKEN") || v.startsWith("vercel_blob_rw_"))) return { name: k, value: v };
+  }
+  return null;
+}
+
 function blobToken(): string | undefined {
-  if (process.env.BLOB_READ_WRITE_TOKEN) return process.env.BLOB_READ_WRITE_TOKEN;
-  for (const [k, v] of Object.entries(process.env)) if (v && k.endsWith("_BLOB_READ_WRITE_TOKEN")) return v;
-  return undefined;
+  return blobTokenSource()?.value;
 }
 
 export function uploadsAvailable() {
